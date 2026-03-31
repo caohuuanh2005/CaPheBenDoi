@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Đăng nhập vào Coffee House - Cửa hàng cà phê cao cấp">
+    <title>Đăng Nhập - Coffee House</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-lg);
+            background: var(--color-bg-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-overlay);
+            opacity: 0.3;
+        }
+
+        .login-container {
+            background: var(--color-bg-secondary);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            width: 100%;
+            max-width: 450px;
+            padding: var(--spacing-xl);
+            position: relative;
+            z-index: 1;
+            animation: modalSlideIn 0.4s ease-out;
+        }
+
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-lg);
+            transition: color var(--transition-fast);
+            text-decoration: none;
+        }
+
+        .back-home:hover {
+            color: var(--color-accent-primary);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .login-header h1 {
+            font-size: var(--font-size-2xl);
+            margin-bottom: var(--spacing-xs);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-header p {
+            color: var(--color-text-secondary);
+        }
+
+        .success-message {
+            background: rgba(92, 184, 92, 0.1);
+            border: 1px solid var(--color-success);
+            color: var(--color-success);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+            display: none;
+        }
+
+        .error-message {
+            background: rgba(217, 83, 79, 0.1);
+            border: 1px solid var(--color-error);
+            color: var(--color-error);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-page">
+        <div class="login-container">
+            <a href="index.html" class="back-home">
+                ← Quay về trang chủ
+            </a>
+
+            <div class="login-header">
+                <h1 id="pageTitle">Đăng Nhập</h1>
+                <p id="pageSubtitle">Chào mừng trở lại!</p>
+            </div>
+
+            <div class="success-message" id="successMessage"></div>
+            <div class="error-message" id="errorMessage"></div>
+
+            <!-- Login Form -->
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">📧 Email</label>
+                    <input type="email" id="loginEmail" placeholder="email@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">🔒 Mật khẩu</label>
+                    <input type="password" id="loginPassword" placeholder="Nhập mật khẩu" required>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="rememberMe">
+                        <span>Ghi nhớ đăng nhập</span>
+                    </label>
+                    <a href="#" class="forgot-link">Quên mật khẩu?</a>
+                </div>
+
+                <button type="submit" class="submit-btn">Đăng Nhập</button>
+            </form>
+
+            <!-- Register Form -->
+            <form class="auth-form" id="registerForm" style="display: none;">
+                <div class="form-group">
+                    <label for="registerName">👤 Họ và tên</label>
+                    <input type="text" id="registerName" placeholder="Nguyễn Văn A" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerEmail">📧 Email</label>
+                    <input type="email" id="registerEmail" placeholder="email@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerPassword">🔒 Mật khẩu</label>
+                    <input type="password" id="registerPassword" placeholder="Tối thiểu 6 ký tự" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerConfirmPassword">🔒 Xác nhận mật khẩu</label>
+                    <input type="password" id="registerConfirmPassword" placeholder="Nhập lại mật khẩu" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Đăng Ký</button>
+            </form>
+
+            <div class="form-divider">
+                <span>hoặc</span>
+            </div>
+
+            <div class="social-login">
+                <button class="social-btn google-btn">
+                    <span>🔍</span> Đăng nhập với Google
+                </button>
+                <button class="social-btn facebook-btn">
+                    <span>📘</span> Đăng nhập với Facebook
+                </button>
+            </div>
+
+            <div class="toggle-form">
+                <p id="toggleText">Chưa có tài khoản? <a href="#" id="toggleFormBtn">Đăng ký ngay</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User authentication state
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+
+        // Check if already logged in
+        if (currentUser) {
+            window.location.href = 'index.html';
+        }
+
+        // Toggle between login and register forms
+        document.getElementById('toggleFormBtn').addEventListener('click', function (e) {
+            e.preventDefault();
+            toggleAuthForm();
+        });
+
+        function toggleAuthForm() {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const pageTitle = document.getElementById('pageTitle');
+            const pageSubtitle = document.getElementById('pageSubtitle');
+            const toggleText = document.getElementById('toggleText');
+
+            if (loginForm.style.display === 'none') {
+                // Switch to login
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+                pageTitle.textContent = 'Đăng Nhập';
+                pageSubtitle.textContent = 'Chào mừng trở lại!';
+                toggleText.innerHTML = 'Chưa có tài khoản? <a href="#" id="toggleFormBtn">Đăng ký ngay</a>';
+            } else {
+                // Switch to register
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+                pageTitle.textContent = 'Đăng Ký';
+                pageSubtitle.textContent = 'Tạo tài khoản mới';
+                toggleText.innerHTML = 'Đã có tài khoản? <a href="#" id="toggleFormBtn">Đăng nhập</a>';
+            }
+
+            // Re-attach event listener
+            document.getElementById('toggleFormBtn').addEventListener('click', function (e) {
+                e.preventDefault();
+                toggleAuthForm();
+            });
+        }
+
+        // Handle login
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                currentUser = { name: user.name, email: user.email };
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+                showSuccess(`Chào mừng trở lại, ${user.name}! Đang chuyển hướng...`);
+
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            } else {
+                showError('Email hoặc mật khẩu không đúng');
+            }
+        });
+
+        // Handle register
+        document.getElementById('registerForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+
+            if (password.length < 6) {
+                showError('Mật khẩu phải có tối thiểu 6 ký tự');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showError('Mật khẩu xác nhận không khớp');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const existingUser = users.find(u => u.email === email);
+
+            if (existingUser) {
+                showError('Email đã được sử dụng');
+                return;
+            }
+
+            const newUser = { name, email, password };
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            currentUser = { name, email };
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+            showSuccess(`Chào mừng ${name}! Tài khoản đã được tạo thành công. Đang chuyển hướng...`);
+
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1500);
+        });
+
+        function showSuccess(message) {
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
+            errorMsg.style.display = 'none';
+            successMsg.textContent = message;
+            successMsg.style.display = 'block';
+        }
+
+        function showError(message) {
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
+            successMsg.style.display = 'none';
+            errorMsg.textContent = message;
+            errorMsg.style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>
